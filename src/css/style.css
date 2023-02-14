@@ -1,0 +1,174 @@
+*{
+    margin: 0;
+}
+:root{
+   --green : #04AA6D;
+   --red : #f44336;
+}
+.container{
+    display: flex;
+}
+.container .sidebar{
+    width: 20%;
+    background-color: black;
+    height: 100vh;
+    overflow: scroll;
+    transition: all 1s ease 0s;
+}
+.container .alert {
+  padding: 10px;
+  background-color: #04AA6D; /* Red */
+  color: white;
+  margin-bottom: 15px;
+  position: absolute;
+  bottom: 5%;
+  right: 5%;  
+  z-index: 9999;
+  border-radius: 6px;
+  max-width: 240px;
+  overflow: hidden;
+  display: none;
+}
+
+.container .save{
+  position: absolute;
+  bottom: 5%;
+  right: 5%;  
+  z-index: 9999;
+  display: none;
+}
+.container .save img{
+  width: 35px;
+}
+
+.container .loader{
+  position: absolute;
+  top: 50%;
+  right: 40%;  
+  z-index: 9999;
+  background-color: white;
+  padding: 7px 3px;
+  border-radius: 4px;
+  display: none;
+}
+.container .menu{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 999;
+  background-color: wheat;
+  display: none;
+  border-radius: 4px;
+  padding: 4px;
+}
+.container .menu img{
+  width: 25px;
+}
+.container .file-options{
+  display: flex;
+  justify-content: space-between;
+}
+.container .sidebar ul li{
+ margin: 4px 0px;
+}
+.container .sidebar ul li a , .container .sidebar a{
+    text-decoration: none;
+    color: wheat;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.container .sidebar ul li a img{
+  width: 20px;
+  margin-right: 4px;
+}
+.container .sidebar ul li:hover  , .container .sidebar a:hover{
+    background-color: rgba(184, 178, 178,0.5);
+    cursor: pointer;
+}
+#editor { 
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 20%;
+    transition: all 1s;
+}
+
+/* MODAL */
+
+.modal {
+  width: 450px;
+  position: fixed;
+  top: -50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: top 0.3s ease-in-out;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  z-index: 9999;
+  background-color: #fff;
+}
+
+.modal.active {
+  top: 25%;
+}
+
+.modal .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.modal .body {
+  padding: 0.75rem;
+}
+.modal .body input{
+  width: 96%;
+  padding: 8px;
+}
+
+
+/* SCROLL BARS */
+
+/* width */
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: red; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #b30000; 
+  }
+
+
+  @media screen and (max-width : 540px){
+    .container .sidebar{
+      position: absolute;
+      top: 0;
+      z-index: 9999;
+      width: 60%;
+    }
+    .container .menu , .container .save{
+      display: block;
+    }
+    .modal {
+      width: 250px;
+    }
+  }

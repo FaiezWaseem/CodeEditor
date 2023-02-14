@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Editor</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./src/css/style.css">
+    <link rel="stylesheet" href="./src/css/contextmenu.css">
+</head>
+
+<body oncontextmenu="return false;">
+    <div class="container">
+        
+        <div class="save"><img src="./src/images/Actions-document-save-as-icon.png" alt=""></div>
+        <div class="alert">Message</div>
+        <div class="loader"><img src="./src/images/loading_simple.gif" alt=""></div>
+        <div class="menu"><img src="./src/images/icons8-menu-rounded-50.png" alt=""></div>
+
+
+        <div class="sidebar" id="sidebar">
+        </div>
+        <div id="editor">
+        </div>
+
+    </div>
+
+    <!-- Modals  -->
+    <div class="modal" id="modal1">
+        <div class="header">
+            <div class="title">Create Folder</div>
+            <button class="btn close-modal">&times;</button>
+        </div>
+        <div class="body">
+            <input type="text" name="" id="folder">
+        </div>
+        <div class="header">
+            <button class="btn" id="cfolder">Save</button>
+        </div>
+    </div>
+    <div class="modal" id="modal2">
+        <div class="header">
+            <div class="title">Create File</div>
+            <button class="btn close-modal">&times;</button>
+        </div>
+        <div class="body">
+
+            <input type="text" name="" id="file">
+        </div>
+        <div class="header">
+            <button class="btn" id="cfile">Save</button>
+        </div>
+    </div>
+
+
+    <!-- Folder Context Menu -->
+    <ul class="menu2">
+        <li class="menu-item">
+            <a href="#" class="menu-btn" id="openFolder">
+                <i class="fa fa-folder-open"></i>
+                <span class="menu-text">Open</span>
+            </a>
+        </li>
+        <li class="menu-separator"></li>
+        <li class="menu-item" id="shareFolder">
+            <button type="button" class="menu-btn">
+                <i class="fa fa-link"></i>
+                <span class="menu-text" id="fshare">Download</span>
+            </button>
+        </li>
+        <li class="menu-item" id="rename">
+            <button type="button" class="menu-btn">
+                <i class="fa fa-edit"></i>
+                <span class="menu-text">Rename</span>
+            </button>
+        </li>
+        <li class="menu-item" id="folderDelete">
+            <button type="button" class="menu-btn">
+                <i class="fa fa-trash"></i>
+                <span class="menu-text">Delete</span>
+            </button>
+        </li>
+    </ul>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.14.0/ace.min.js"
+        integrity="sha512-s57ywpCtz+4PU992Bg1rDtr6+1z38gO2mS92agz2nqQcuMQ6IvgLWoQ2SFpImvg1rbgqBKeSEq0d9bo9NtBY0w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./src/js/jquery.fcup.js"></script>
+    <script src="./src/js/longpress.min.js"></script>
+    <script src="./src/js/index.js" type="module"></script>
+</body>
+
+</html>
