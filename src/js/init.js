@@ -2,7 +2,7 @@ import db from "./tinylib.js"
 const codeEditor = {
     // To add a custom path edit currentDir key EX : "/var/user/home/"
     // leave null to auto detect server root path
-    currentDir: null,
+    currentDir: "C:/xampp/htdocs/php/CodeEditor",
     rootPath: null,
     selectedFile: null,
     fileIcon: (ext, name = null) => {
@@ -280,7 +280,23 @@ const codeEditor = {
             document.body.style.border = "0px solid green"
             let files = event.dataTransfer.files;
             this.upload(files)
-          })
+          });
+          
+          
+        let isClosed = false;  
+        document.getElementById("close-shell").onclick = () => {
+            if(!isClosed){
+            document.querySelector('#terminal').style.display = "none";
+            document.querySelector('#close-shell').innerHTML = "&#8648;";
+            isClosed = true;
+            }else{
+            document.querySelector('#close-shell').innerHTML = "&times;";
+                 document.querySelector('#terminal').style.display = "block";
+            isClosed = false;
+            }
+        }
+          
+         
 
     },
     previousDir: function () {

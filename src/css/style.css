@@ -29,7 +29,22 @@
   overflow: hidden;
   display: none;
 }
-
+.iframe{
+    padding: 5px;
+    position: absolute;
+    bottom: 0%;
+    right: 0%;
+    z-index: 9999;
+    background: #222;
+    width: 79%;
+    border-radius : 12px 0px;
+}
+.iframe iframe{
+  width: 100%;
+}
+.iframe div span{
+    color : white;
+}
 .container .save{
   position: absolute;
   bottom: 5%;
@@ -170,5 +185,8 @@
     }
     .modal {
       width: 250px;
+    }
+    .iframe {
+      width: 99%;
     }
   }
