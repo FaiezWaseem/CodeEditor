@@ -10,7 +10,7 @@
 }
 .container .sidebar{
     width: 20%;
-    background-color: black;
+    background-color: #1D1F21;
     height: 100vh;
     overflow: scroll;
     transition: all 1s ease 0s;
@@ -83,8 +83,10 @@
   display: flex;
   justify-content: space-between;
 }
+
 .container .sidebar ul li{
  margin: 4px 0px;
+ list-style: none;
 }
 .container .sidebar ul li a , .container .sidebar a{
     text-decoration: none;
@@ -93,7 +95,7 @@
     justify-content: flex-start;
     align-items: center;
 }
-.container .sidebar ul li a img{
+.container .sidebar ul li a img , .container .file-options div img{
   width: 20px;
   margin-right: 4px;
 }

@@ -31,4 +31,6 @@ Simply put it in the public Directory and enjoy.
 ## logs
 
 -- added Terminal (Feb 15 2023)
+-- Added Reload Button - Fixed Bugs (Feb 20 2023)
+
 

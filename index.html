@@ -5,7 +5,28 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Editor</title>
+    <!-- Primary Meta Tags -->
+    <title>Code Editor — Preview, Edit , Upload and Download</title>
+    <meta name="title" content="Code Editor — Preview, Edit , Upload and Download">
+    <meta name="description"
+        content="Code Editor — Preview, Edit , Upload and Download - Hey Folks this is Simple Web Based Code Editor , No Need To use Nano or vim for your server now. Simply put it in the public Directory and enjoy.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="#">
+    <meta property="og:title" content="Code Editor — Preview, Edit , Upload and Download">
+    <meta property="og:description"
+        content="Code Editor — Preview, Edit , Upload and Download - Hey Folks this is Simple Web Based Code Editor , No Need To use Nano or vim for your server now. Simply put it in the public Directory and enjoy.">
+    <meta property="og:image" content="./src/images/CodeEditor.PNG">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="#">
+    <meta property="twitter:title" content="Code Editor — Preview, Edit , Upload and Download">
+    <meta property="twitter:description"
+        content="Code Editor — Preview, Edit , Upload and Download - Hey Folks this is Simple Web Based Code Editor , No Need To use Nano or vim for your server now. Simply put it in the public Directory and enjoy.">
+    <meta property="twitter:image" content="./src/images/CodeEditor.PNG">
+
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./src/css/style.css">
@@ -14,12 +35,12 @@
 
 <body oncontextmenu="return false;">
     <div class="container">
-        
+
         <div class="iframe">
-        <div>
-            <span>Terminal<span>
-            <button class="btn close-modal" id="close-shell">&times;</button>
-        </div>
+            <div>
+                <span>Terminal<span>
+                        <button class="btn close-modal" id="close-shell">&times;</button>
+            </div>
             <iframe src="./src/php/shell.php" frameborder="0" id='terminal'></iframe>
         </div>
         <div class="save"><img src="./src/images/Actions-document-save-as-icon.png" alt=""></div>

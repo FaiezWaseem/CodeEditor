@@ -17,6 +17,7 @@
     <div>
     <img src="./src/images/file.png" alt="icon" data-target="#modal2" />
     <img src="./src/images/open-folder.png" alt="icon" data-target="#modal1" />
+    <img src="./src/images/Button-Refresh-icon.png" alt="icon" onclick='codeEditor.reload()'  />
     <div>
     <div>`)
     document.getElementById("sidebar").innerHTML += (`<ul id="files"></ul>`)
@@ -26,7 +27,10 @@
     ace.config.set('basePath', 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/')
     editor.setOptions({
         theme: 'ace/theme/tomorrow_night',
-        mode: 'ace/mode/javascript'
+        mode: 'ace/mode/javascript',
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: false
     })
     themes.addEventListener('change', function(e){
       editor.setOptions({

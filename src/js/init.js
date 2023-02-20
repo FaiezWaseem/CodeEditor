@@ -2,7 +2,7 @@ import db from "./tinylib.js"
 const codeEditor = {
     // To add a custom path edit currentDir key EX : "/var/user/home/"
     // leave null to auto detect server root path
-    currentDir: "C:/xampp/htdocs/php/CodeEditor",
+    currentDir: null,
     rootPath: null,
     selectedFile: null,
     fileIcon: (ext, name = null) => {
@@ -87,7 +87,7 @@ const codeEditor = {
             db.getFolder(path).then(res => {
                 // directory files recieved  
                 if (res.status === 200) {
-                    codeEditor.loadfiles(res.data)
+                    window.codeEditor.loadfiles(res.data)
                     this.loader(false)
                 }
 
@@ -96,6 +96,13 @@ const codeEditor = {
                 this.alert(err, "red")
             })
         } else {
+            this.selectedFile = e.name;
+            let temp = e.name.split(".");
+            if (this.isValidFile(temp[temp.length - 1])) {
+                editor.setOptions({
+                    mode: 'ace/mode/' + temp[temp.length - 1]
+                })
+            }
             db.getFile(path).then(res => {
                 if (res.status === 200) {
                     editor.setValue(res.data, -1)
@@ -120,7 +127,7 @@ const codeEditor = {
                     db.getFolder(path.data).then(res => {
                         // directory files recieved  
                         if (res.status === 200) {
-                            codeEditor.loadfiles(res.data)
+                            window.codeEditor.loadfiles(res.data)
                             this.loader(false);
                         }
 
@@ -144,22 +151,33 @@ const codeEditor = {
                 this.loader(true)
                 // Prevent the Save dialog to open
                 e.preventDefault();
+                if (editor.currentfile) {
+
+                    db.putFile(editor.currentfile, editor.getValue()).then(res => {
+                        if (res.status === 200) {
+                            this.alert("File Saved")
+                            this.loader(false)
+                        }
+                    })
+                } else {
+                    this.alert("No File Selected !")
+                    this.loader(false)
+                }
+            }
+        });
+        document.querySelector(".save").onclick = () => {
+            this.loader(true)
+            if (editor.currentfile) {
                 db.putFile(editor.currentfile, editor.getValue()).then(res => {
                     if (res.status === 200) {
                         this.alert("File Saved")
                         this.loader(false)
                     }
                 })
+            } else {
+                this.alert("No File Selected")
+                this.loader(false)
             }
-        });
-        document.querySelector(".save").onclick = () => {
-            this.loader(true)
-            db.putFile(editor.currentfile, editor.getValue()).then(res => {
-                if (res.status === 200) {
-                    this.alert("File Saved")
-                    this.loader(false)
-                }
-            })
         }
 
         document.querySelector("#cfolder").onclick = () => {
@@ -215,12 +233,17 @@ const codeEditor = {
         close_modals.forEach((btn) => {
             btn.addEventListener("click", () => {
                 const modal = btn.closest(".modal");
-                modal.classList.remove("active");
+                try {
+                    modal.classList.remove("active");
+                } catch (error) {
+
+                }
             });
         });
 
-        document.addEventListener('long-press', function (e) {
-            codeEditor.selectedFile = e.target.getAttribute("data");
+        document.addEventListener('long-press', (e) => {
+            console.log(e.target.getAttribute("data"))
+            this.selectedFile = e.target.getAttribute("data");
             var menu = document.querySelector('.menu2');
             console.log(e.detail.clientX, e.detail.clientY)
             menu.style.left = e.detail.clientX + 'px';
@@ -231,19 +254,19 @@ const codeEditor = {
             document.querySelector('.menu2').classList.remove('menu-show');
         })
         document.getElementById("shareFolder").onclick = () => {
-            const path = codeEditor.currentDir + "/" + codeEditor.selectedFile;
+            const path = window.codeEditor.currentDir + "/" + window.codeEditor.selectedFile;
             const a = document.createElement("a")
             a.href = "./src/php/index.php?dw=" + path;
             document.body.appendChild(a)
             a.click();
         }
         document.getElementById("openFolder").onclick = () => {
-            db.getFolder(codeEditor.currentDir + "/" + codeEditor.selectedFile).then(res => {
+            db.getFolder(window.codeEditor.currentDir + "/" + window.codeEditor.selectedFile).then(res => {
                 // directory files recieved  
                 if (res.status === 200) {
-                    codeEditor.loadfiles(res.data)
+                    window.codeEditor.loadfiles(res.data)
                     this.loader(false);
-                    this.currentDir = codeEditor.currentDir + "/" + codeEditor.selectedFile;
+                    this.currentDir = window.codeEditor.currentDir + "/" + window.codeEditor.selectedFile;
                 }
 
             }).catch(err => {
@@ -253,56 +276,56 @@ const codeEditor = {
         }
         document.getElementById("folderDelete").onclick = () => {
             this.loader(true);
-            db.deleteFile(codeEditor.currentDir + "/" + codeEditor.selectedFile)
+            db.deleteFile(this.currentDir + "/" + this.selectedFile)
                 .then(res => {
                     if (res.status === 200) {
                         this.reload()
                         this.loader(false);
-                        this.alert(codeEditor.selectedFile + " Removed !");
-                        codeEditor.selectedFile = null;
+                        this.alert(this.selectedFile + " Removed !");
+                        this.selectedFile = null;
                     }
                 })
         }
-          const dropArea = document.body;
+        const dropArea = document.body;
         // drag and drop
-        dropArea.addEventListener("dragover", (event)=>{
+        dropArea.addEventListener("dragover", (event) => {
             event.preventDefault(); //preventing from default behaviour
             document.body.style.border = "4px dashed green"
         });
-        
+
         //If user leave dragged File from DropArea
-        dropArea.addEventListener("dragleave", (event)=>{
-              console.log(event)
-              document.body.style.border = "0px solid green"
-          });
-          dropArea.addEventListener("drop", (event)=>{
+        dropArea.addEventListener("dragleave", (event) => {
+            console.log(event)
+            document.body.style.border = "0px solid green"
+        });
+        dropArea.addEventListener("drop", (event) => {
             event.preventDefault(); //preventing from default behaviour
             document.body.style.border = "0px solid green"
             let files = event.dataTransfer.files;
             this.upload(files)
-          });
-          
-          
-        let isClosed = false;  
+        });
+
+
+        let isClosed = false;
         document.getElementById("close-shell").onclick = () => {
-            if(!isClosed){
-            document.querySelector('#terminal').style.display = "none";
-            document.querySelector('#close-shell').innerHTML = "&#8648;";
-            isClosed = true;
-            }else{
-            document.querySelector('#close-shell').innerHTML = "&times;";
-                 document.querySelector('#terminal').style.display = "block";
-            isClosed = false;
+            if (!isClosed) {
+                document.querySelector('#terminal').style.display = "none";
+                document.querySelector('#close-shell').innerHTML = "&#8648;";
+                isClosed = true;
+            } else {
+                document.querySelector('#close-shell').innerHTML = "&times;";
+                document.querySelector('#terminal').style.display = "block";
+                isClosed = false;
             }
         }
-          
-         
+
+
 
     },
     previousDir: function () {
         this.loader(true);
-        var temp = codeEditor.currentDir;
-        let str = codeEditor.currentDir.split("/")
+        var temp = window.codeEditor.currentDir;
+        let str = window.codeEditor.currentDir.split("/")
         str.pop();
         str = str.toString();
         str = str.replaceAll(",", "/");
@@ -310,7 +333,7 @@ const codeEditor = {
         db.getFolder(str).then(res => {
             // directory files recieved  
             if (res.status === 200) {
-                codeEditor.loadfiles(res.data)
+                window.codeEditor.loadfiles(res.data)
                 this.loader(false);
             } else {
                 this.loader(false);
@@ -346,7 +369,7 @@ const codeEditor = {
         db.getFolder(this.currentDir).then(res => {
             // directory files recieved  
             if (res.status === 200) {
-                codeEditor.loadfiles(res.data)
+                window.codeEditor.loadfiles(res.data)
                 this.loader(false);
             }
 
@@ -355,104 +378,128 @@ const codeEditor = {
             this.alert(err, "red")
         })
     },
-    upload : function (files = []) {
+    upload: function (files = []) {
         $.fcup({
 
             upId: 'upid', //Upload the id of the dom
-   
+
             upShardSize: '3', //Slice size, (maximum per upload) in unit M, default 3M
-   
+
             upMaxSize: '9216', //Upload file size, unit M, no setting no limit supported 9GB
-   
+
             upUrl: './src/php/file.php?p=' + this.currentDir, //File upload interface
-   
-            files : files,
-   
-   
+
+            files: files,
+
+
             //The interface returns a result callback, which is judged according to the
             // data returned by the result, and can return a string or json for judgment processing
-            upCallBack: function (res,id) {
-   
-               // 状态
-               var status = res.status;
-               // 信息
-               var msg = res.message;
-               // url
-               var url = res.url + "?" + Math.random();
-   
-               // Already done
-               if (status == 2) {
-                  console.log("Done Id = Size : "+id);
-                  alert("File Done "+id);
-                //   document.getElementById("f"+id).innerText = "Done";
-               }
-   
-               // still uploading
-               if (status == 1) {
-                  console.log( msg);
-                  alert( msg);
-               }
-   
-               // The interface returns an error
-               if (status == 0) {
-                  // Stop uploading trigger $.upStop function
-                  $.upErrorMsg(msg);
-               }
-   
-               if (status == 3) {
-                  alert(100);
-                  console.log(msg)
-                  alert(msg)
-                  jQuery.upErrorMsg(msg);
-               }
+            upCallBack: function (res, id) {
+
+                // 状态
+                var status = res.status;
+                // 信息
+                var msg = res.message;
+                // url
+                var url = res.url + "?" + Math.random();
+
+                // Already done
+                if (status == 2) {
+                    console.log("Done Id = Size : " + id);
+                    alert("File Done " + id);
+                    //   document.getElementById("f"+id).innerText = "Done";
+                }
+
+                // still uploading
+                if (status == 1) {
+                    console.log(msg);
+                    alert(msg);
+                }
+
+                // The interface returns an error
+                if (status == 0) {
+                    // Stop uploading trigger $.upStop function
+                    $.upErrorMsg(msg);
+                }
+
+                if (status == 3) {
+                    alert(100);
+                    console.log(msg)
+                    alert(msg)
+                    jQuery.upErrorMsg(msg);
+                }
             },
-   
-            upEvent: function (num,id) {
-               console.log(num+"%");
-               alert(num+"%");
+
+            upEvent: function (num, id) {
+                console.log(num + "%");
+                alert(num + "%");
             },
-   
+
             upStop: function (errmsg) {
-               console.log("Uploading Failed .... " + errmsg);
+                console.log("Uploading Failed .... " + errmsg);
             },
-   
+
             upStart: function () {
-                console.log(0+"%");
-               console.log("Uploading Started ....");
-               alert("Uploading Started ....");
+                console.log(0 + "%");
+                console.log("Uploading Started ....");
+                alert("Uploading Started ....");
             },
-            listfiles : function(files){
+            listfiles: function (files) {
                 console.log(files)
-        //      for (let i = 0; i < files.length; i++) {
-        //        const element = files[i];
-        //        document.getElementById("filesbdy").innerHTML +=  `
-        //        <tr>
-        //      <th scope="row">${i+1}</th>
-        //      <td>${element.name}</td>
-        //      <td>${humanFileSize(element.size)}</td>
-        //      <td id="f${element.size}">0%</td>
-        //    </tr>
-        //        `
-               
-        //      }
+                //      for (let i = 0; i < files.length; i++) {
+                //        const element = files[i];
+                //        document.getElementById("filesbdy").innerHTML +=  `
+                //        <tr>
+                //      <th scope="row">${i+1}</th>
+                //      <td>${element.name}</td>
+                //      <td>${humanFileSize(element.size)}</td>
+                //      <td id="f${element.size}">0%</td>
+                //    </tr>
+                //        `
+
+                //      }
             }
-   
-         });
-         function alert( message , color = "green") {
+
+        });
+        function alert(message, color = "green") {
             document.querySelector(".alert").style.display = "block"
             document.querySelector(".alert").innerText = message
             document.querySelector(".alert").style.backgroundColor = `var(--${color})`
-    
+
             setTimeout(() => {
                 document.querySelector(".alert").innerText = message
                 document.querySelector(".alert").style.display = "none"
                 document.querySelector(".alert").style.backgroundColor = `var(--${color})`
             }, 3000)
-           }
-         function humanFileSize(size) {
-       var i = size == 0 ? 0 : Math.floor(Math.log(size) / Math.log(1024));
-       return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
-   }
-      }
+        }
+        function humanFileSize(size) {
+            var i = size == 0 ? 0 : Math.floor(Math.log(size) / Math.log(1024));
+            return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+        }
+    },
+    isValidFile: function (ext) {
+        switch (ext) {
+            case "js":
+                return true;
+            case "html":
+                return true;
+            case "css":
+                return true;
+            case "php":
+                return true;
+            case "java":
+                return true;
+            case "ini":
+                return true;
+            case "fortran":
+                return true;
+            case "ejs":
+                return true;
+            case "sql":
+                return true;
+            default:
+                return false;
+        }
+    }
 }
 export default codeEditor;
