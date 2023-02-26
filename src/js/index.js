@@ -30,7 +30,7 @@
         mode: 'ace/mode/javascript',
         enableBasicAutocompletion: true,
         enableSnippets: true,
-        enableLiveAutocompletion: false
+        enableLiveAutocompletion: true
     })
     themes.addEventListener('change', function(e){
       editor.setOptions({

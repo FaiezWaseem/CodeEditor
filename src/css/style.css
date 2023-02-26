@@ -36,8 +36,7 @@
     right: 0%;
     z-index: 9999;
     background: #222;
-    width: 79%;
-    border-radius : 12px 0px;
+    width: 79.3%;
 }
 .iframe iframe{
   width: 100%;
@@ -107,7 +106,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    bottom: 0;
+    bottom: 30px;
     left: 20%;
     transition: all 1s;
 }

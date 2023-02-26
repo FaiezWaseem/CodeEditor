@@ -32,5 +32,6 @@ Simply put it in the public Directory and enjoy.
 
 -- added Terminal (Feb 15 2023)
 -- Added Reload Button - Fixed Bugs (Feb 20 2023)
+-- Added Syntax Highlighting - Fixed Bugs (Feb 26 2023)
 
 

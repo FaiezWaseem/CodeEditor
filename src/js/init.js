@@ -65,6 +65,8 @@ const codeEditor = {
                 return "./src/images/music-icon.png";
             case "java":
                 return "./src/images/Java-icon.png";
+            case "py":
+                return "./src/images/text-x-python-icon.png";
             default:
                 return "./src/images/Document-icon.png";
         }
