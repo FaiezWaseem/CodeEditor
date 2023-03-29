@@ -67,7 +67,7 @@
 }
 .container .menu{
   position: absolute;
-  top: 10px;
+  top: 15px;
   right: 10px;
   z-index: 999;
   background-color: wheat;
@@ -109,8 +109,8 @@
     bottom: 30px;
     left: 20%;
     transition: all 1s;
+    background-color: #1D1F21;
 }
-
 
 .tabs{
   position: absolute;
@@ -227,5 +227,11 @@
     }
     .iframe {
       width: 99%;
+    }
+    .tabs{
+      width: 100%;
+    }
+    #editor{
+      background-color: #1D1F21;
     }
   }

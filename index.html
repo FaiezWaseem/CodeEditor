@@ -85,6 +85,7 @@
             <button class="btn" id="cfolder">Save</button>
         </div>
     </div>
+    <!-- Modal File Create -->
     <div class="modal" id="modal2">
         <div class="header">
             <div class="title">Create File</div>
@@ -98,7 +99,19 @@
             <button class="btn" id="cfile">Save</button>
         </div>
     </div>
-
+    <!-- Modal File Rename -->
+    <div class="modal" id="modal3" >
+        <div class="header">
+            <div class="title">Rename</div>
+            <button class="btn close-modal">&times;</button>
+        </div>
+        <div class="body">
+            <input type="text" name="" id="fileRename">
+        </div>
+        <div class="header">
+            <button class="btn" id="fRename">Save</button>
+        </div>
+    </div>
 
     <!-- Folder Context Menu -->
     <ul class="menu2">
@@ -115,10 +128,10 @@
                 <span class="menu-text" id="fshare">Download</span>
             </button>
         </li>
-        <li class="menu-item" id="rename">
+        <li class="menu-item" id="rename" data-target="#modal3">
             <button type="button" class="menu-btn">
                 <i class="fa fa-edit"></i>
-                <span class="menu-text">Rename</span>
+                <span class="menu-text" >Rename</span>
             </button>
         </li>
         <li class="menu-item" id="folderDelete">

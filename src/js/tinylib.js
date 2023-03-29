@@ -26,6 +26,20 @@ class db {
          const res = req.json()
          return res;
     }
+    async fileRename(currentPath,renamePath) {
+        this.error(currentPath,renamePath)
+        let form = new FormData();
+        form.append('rename', 'true');
+        form.append('getFolder', currentPath);
+        form.append('path', renamePath);
+        let options = {
+            method: 'POST',
+            body: form
+        };
+         const req = await fetch(this.path, options);
+         const res = req.json()
+         return res;
+    }
     async createFolder(folder, path) {
         this.error(folder,path)
         let form = new FormData();

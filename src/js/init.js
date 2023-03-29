@@ -1,11 +1,11 @@
 import db from "./tinylib.js"
 const codeEditor = {
-    // To add a custom path edit currentDir key EX : "/var/user/home/"
+    
     // leave null to auto detect server root path
-    currentDir: null,
-    rootPath: null,
-    selectedFile: null,
-    fileIcon: (ext, name = null) => {
+    currentDir: null, // To add a custom path edit currentDir key EX : "/var/user/home/"
+    rootPath: null,  
+    selectedFile: null, // dont change
+    fileIcon(ext, name = null){
         switch (ext) {
             case "gif":
                 return "./src/php/index.php?dw=" + name;
@@ -71,7 +71,7 @@ const codeEditor = {
                 return "./src/images/Document-icon.png";
         }
     },
-    loadfiles: function (files = []) {
+    loadfiles(files = []) {
         document.getElementById("files")
             .innerHTML = '';
 
@@ -85,7 +85,7 @@ const codeEditor = {
                 </li>`;
         });
     },
-    ItemClicked: function (e) {
+    ItemClicked(e) {
         this.loader(true)
         const path = this.currentDir + "/" + e.name;
         if (e.is_dir) {
@@ -128,7 +128,7 @@ const codeEditor = {
             })
         }
     },
-    init: function () {
+    init() {
         this.loader(true);
         // get root directory
         if (this.currentDir === null || this.currentDir === undefined) {
@@ -169,6 +169,10 @@ const codeEditor = {
                     db.putFile(editor.currentfile, editor.getValue()).then(res => {
                         if (res.status === 200) {
                             this.alert("File Saved")
+                            this.loader(false)
+                        }
+                        if (res.status === 300) {
+                            this.alert(res.data)
                             this.loader(false)
                         }
                     })
@@ -297,8 +301,30 @@ const codeEditor = {
                         this.alert(this.selectedFile + " Removed !");
                         this.selectedFile = null;
                     }
+                    if (res.status === 300) {
+                        this.alert(res.data)
+                        this.loader(false)
+                    }
                 })
         }
+        document.getElementById("fRename").onclick = () => {
+            const newName = document.getElementById("fileRename").value;
+            const oldName = this.selectedFile
+            const oldPath = this.currentDir + "/" + oldName
+            const newPath = this.currentDir + "/" + newName
+            this.loader(true);
+            db.fileRename(oldPath,newPath)
+                .then(res => {
+                    if (res.status === 200) {
+                        this.reload()
+                        this.loader(false);
+                        this.alert(this.selectedFile + " Renamed !");
+                        this.selectedFile = null;
+                    }
+                })
+            console.log("CLicked")
+        }
+
         const dropArea = document.body;
         // drag and drop
         dropArea.addEventListener("dragover", (event) => {
@@ -335,7 +361,7 @@ const codeEditor = {
 
 
     },
-    previousDir: function () {
+    previousDir() {
         this.loader(true);
         var temp = window.codeEditor.currentDir;
         let str = window.codeEditor.currentDir.split("/")
@@ -359,14 +385,14 @@ const codeEditor = {
             this.alert(err, "red")
         })
     },
-    loader: function (show = true) {
+    loader(show = true) {
         if (show) {
             document.querySelector(".loader").style.display = "block"
         } else {
             document.querySelector(".loader").style.display = "none"
         }
     },
-    alert: function (message = "Message :", color = "green") {
+    alert(message = "Message :", color = "green") {
         document.querySelector(".alert").style.display = "block"
         document.querySelector(".alert").innerText = message
         document.querySelector(".alert").style.backgroundColor = `var(--${color})`
@@ -378,7 +404,7 @@ const codeEditor = {
         }, 3000)
 
     },
-    reload: function () {
+    reload() {
         db.getFolder(this.currentDir).then(res => {
             // directory files recieved  
             if (res.status === 200) {
@@ -391,7 +417,7 @@ const codeEditor = {
             this.alert(err, "red")
         })
     },
-    upload: function (files = []) {
+    upload(files = []) {
         $.fcup({
 
             upId: 'upid', //Upload the id of the dom
@@ -490,7 +516,7 @@ const codeEditor = {
             return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
         }
     },
-    isValidFile: function (ext) {
+    isValidFile(ext) {
         switch (ext) {
             case "js":
                 return true;
