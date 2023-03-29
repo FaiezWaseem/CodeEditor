@@ -5,7 +5,7 @@ $root_path = $_SERVER['DOCUMENT_ROOT'];
 
 // Read Mode Only
 // set to true if want to disable delete and create options
-$read_only=true;
+$read_only=false;
 // Set Specific Rights
 $config = array(
     "allow_file_create" => true,
