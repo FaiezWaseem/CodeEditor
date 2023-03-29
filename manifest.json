@@ -1,0 +1,32 @@
+{
+    "theme_color": "#7ed321",
+    "background_color": "#7ed321",
+    "display": "fullscreen",
+    "scope": "/",
+    "start_url": "/",
+    "name": "CodeEditor",
+    "short_name": "CodeEditor",
+    "description": " Simple Web Based Code Editor , No Need To use Nano or vim for your server now. Simply put it in the public Directory and enjoy. ",
+    "icons": [
+        {
+            "src": "./src/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "./src/icons/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "./src/icons/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "./src/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

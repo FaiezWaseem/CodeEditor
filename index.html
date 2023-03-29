@@ -27,6 +27,17 @@
         content="Code Editor — Preview, Edit , Upload and Download - Hey Folks this is Simple Web Based Code Editor , No Need To use Nano or vim for your server now. Simply put it in the public Directory and enjoy.">
     <meta property="twitter:image" content="./src/images/CodeEditor.PNG">
 
+    <link rel="shortcut icon" href="./src/icons/icon-192x192.png" type="image/x-icon">
+    <link rel="icon" href="./src/icons/icon-192x192.png" type="image/x-icon">
+
+    <!-- These meta tags are Apple-specific, and set the web application to run in full-screen mode with a black status bar. Learn more at https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html-->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Code Editor — Preview, Edit , Upload and Download" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <!-- Imports the manifest to represent the web application. A web app must have a manifest to be a PWA. -->
+    <link rel="manifest" href="./manifest.json" />
+
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./src/css/style.css">
@@ -51,7 +62,12 @@
 
         <div class="sidebar" id="sidebar">
         </div>
-        <div id="editor">
+        <div>
+            <div class="tabs">
+        
+            </div>
+            <div id="editor">
+            </div>
         </div>
 
     </div>
@@ -112,7 +128,7 @@
             </button>
         </li>
     </ul>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ext-language_tools.min.js"></script>
     <script src="./src/js/jquery.fcup.js"></script>
     <script src="./src/js/longpress.min.js"></script>

@@ -78,7 +78,11 @@ const codeEditor = {
         files.forEach(item => {
             document.getElementById("files")
                 .innerHTML +=
-                `<li onclick='codeEditor.ItemClicked(${JSON.stringify(item)})' data-long-press-delay="500" ><a  data="${item.name}"><img src="${item.is_dir ? this.fileIcon("folder") : this.fileIcon(item.ext, this.currentDir + "/" + item.name)}">${item.name}</a></li>`;
+                `<li onclick='codeEditor.ItemClicked(${JSON.stringify(item)})' data-long-press-delay="500" >
+                   <a  data="${item.name}">
+                      <img src="${item.is_dir ? this.fileIcon("folder") : this.fileIcon(item.ext, this.currentDir + "/" + item.name)}">
+                      ${item.name}</a>
+                </li>`;
         });
     },
     ItemClicked: function (e) {
@@ -110,6 +114,13 @@ const codeEditor = {
                     editor.setValue(res.data, -1)
                     editor.currentfile = path;
                     this.loader(false)
+                    document.querySelector(".tabs").innerHTML += `
+                    <li id="${temp[0]}">
+                    <img src="${ this.fileIcon(temp[temp.length - 1], this.currentDir + "/" + e.name)}" width="25px" height="25px">
+                    <span onclick="codeEditor.tabClicked('${path}','${e.name}')">${e.name}</span>
+                    <span onclick="codeEditor.tabClose('${temp[0]}')">X</span>
+                </li>
+                    `
                 }
             }).catch(err => {
                 this.loader(false);
@@ -502,6 +513,31 @@ const codeEditor = {
             default:
                 return false;
         }
+    },
+    tabClose(id){
+        document.getElementById(id).remove()
+        editor.selectedFile = null
+        this.selectedFile = null
+        editor.setValue("")
+    },
+    tabClicked(path , fName){
+        this.selectedFile = fName;
+        let temp = fName.split(".");
+        if (this.isValidFile(temp[temp.length - 1])) {
+            editor.setOptions({
+                mode: 'ace/mode/' + temp[temp.length - 1]
+            })
+        }
+        db.getFile(path).then(res => {
+            if (res.status === 200) {
+                editor.setValue(res.data, -1)
+                editor.currentfile = path;
+                this.loader(false)
+            }
+        }).catch(err => {
+            this.loader(false);
+            this.alert(err, "red")
+        })
     }
 }
 export default codeEditor;

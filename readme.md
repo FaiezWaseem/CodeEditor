@@ -1,4 +1,4 @@
-<img src="./src/images/CodeEditor.PNG" height="280px">
+<img src="./src/images/CodeEditor.PNG" style="max-width : 300px; max-height : 300px">
 
 ## CodeEditor
 Hey Folks this is Simple Web Based Code Editor , No Need To use Nano or vim for your server now.
@@ -14,9 +14,11 @@ Simply put it in the public Directory and enjoy.
 - [x] create new file
 - [x] create new folder
 - [x] In-built Shell
+- [x] add Tabs
 - [ ] rename file
 - [ ] unzip files
 - [ ] add mobile fileupload
+- [ ] add Settings
 
 ### Attribution
 <a href="https://www.flaticon.com/free-icons/file" title="file icons">File icons created by Dimitry Miroliubov - Flaticon</a><br>
@@ -30,8 +32,8 @@ Simply put it in the public Directory and enjoy.
 
 ## logs
 
--- added Terminal (Feb 15 2023)
--- Added Reload Button - Fixed Bugs (Feb 20 2023)
--- Added Syntax Highlighting - Fixed Bugs (Feb 26 2023)
-
+-- added Terminal (Feb 15 2023) <br>
+-- Added Reload Button - Fixed Bugs (Feb 20 2023) <br>
+-- Added Syntax Highlighting - Fixed Bugs (Feb 26 2023) <br>
+-- Added Tabs Support & Created Manifest(March 29 2023)
 
