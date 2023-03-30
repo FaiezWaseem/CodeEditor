@@ -115,7 +115,7 @@ const codeEditor = {
                     editor.currentfile = path;
                     this.loader(false)
                     document.querySelector(".tabs").innerHTML += `
-                    <li id="${temp[0]}">
+                    <li id="${temp[0]}" isOpenedFile="yes" data-long-press-delay="500">
                     <img src="${ this.fileIcon(temp[temp.length - 1], this.currentDir + "/" + e.name)}" width="25px" height="25px">
                     <span onclick="codeEditor.tabClicked('${path}','${e.name}')">${e.name}</span>
                     <span onclick="codeEditor.tabClose('${temp[0]}')">X</span>
@@ -259,16 +259,23 @@ const codeEditor = {
         });
 
         document.addEventListener('long-press', (e) => {
-            console.log(e.target.getAttribute("data"))
-            this.selectedFile = e.target.getAttribute("data");
-            var menu = document.querySelector('.menu2');
-            console.log(e.detail.clientX, e.detail.clientY)
-            menu.style.left = e.detail.clientX + 'px';
-            menu.style.top = e.detail.clientY + 'px';
-            menu.classList.add('menu-show');
+            const showMenu =(id , e)=>{
+                var menu = document.querySelector(id);
+                console.log(e.detail.clientX, e.detail.clientY)
+                menu.style.left = e.detail.clientX + 'px';
+                menu.style.top = e.detail.clientY + 'px';
+                menu.classList.add('menu-show');
+             }
+           if(e.target.getAttribute("data") === null){
+            showMenu('.menu3' , e);
+           }else{
+              this.selectedFile = e.target.getAttribute("data");
+               showMenu('.menu2',e)
+            }
         });
         document.addEventListener('click', function () {
             document.querySelector('.menu2').classList.remove('menu-show');
+            document.querySelector('.menu3').classList.remove('menu-show');
         })
         document.getElementById("shareFolder").onclick = () => {
             const path = window.codeEditor.currentDir + "/" + window.codeEditor.selectedFile;
