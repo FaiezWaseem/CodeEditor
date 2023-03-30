@@ -23,6 +23,7 @@ if ('serviceWorker' in navigator) {
     <img src="./src/images/file.png" alt="icon" data-target="#modal2" />
     <img src="./src/images/open-folder.png" alt="icon" data-target="#modal1" />
     <img src="./src/images/Button-Refresh-icon.png" alt="icon" onclick='codeEditor.reload()'  />
+    <img src="./src/images/Settings-icon.png" alt="icon" data-target="#setting_modal"  />
     <div>
     <div>`)
   document.getElementById("sidebar").innerHTML += (`<ul id="files"></ul>`)
