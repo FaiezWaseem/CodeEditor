@@ -358,7 +358,10 @@ const codeEditor = {
             document.querySelectorAll(".container .sidebar ul li a").forEach(item => item.style.fontSize = sfontSize )
             editor.setFontSize(fontSize)
         }
-addEventListener("dragover", (event) => {
+
+        const dropArea = document.body;
+        // drag and drop
+        dropArea.addEventListener("dragover", (event) => {
             event.preventDefault(); //preventing from default behaviour
             document.body.style.border = "4px dashed green"
         });

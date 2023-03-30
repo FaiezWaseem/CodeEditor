@@ -34,6 +34,8 @@ if ('serviceWorker' in navigator) {
   editor.setOptions({
     theme: 'ace/theme/tomorrow_night',
     mode: 'ace/mode/javascript',
+    useSoftTabs : true,
+    enableMultiselect : true,
     enableBasicAutocompletion: true,
     enableSnippets: true,
     enableLiveAutocompletion: true

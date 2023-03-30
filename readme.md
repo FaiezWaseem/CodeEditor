@@ -7,22 +7,22 @@ Simply put it in the public Directory and enjoy.
 
 ### How To
 
-1. To Go Change Permissions to Read Only Mode Goto
- -  `src/php/index.php`
+1. To Go Change Permissions to Read Only Mode.
+ - Goto -> `src/php/index.php`
 
- line No  ** 8 **
-```
- $read_only=false;
- ```
- Change to true , by default false
-```
- $read_only=true;
- ```
+ - line No  *** 8 ***
+  ```
+   $read_only=false;
+  ```
+  Change to true , by default false
+  ```
+   $read_only=true;
+  ```
 
-2. To Go Change Specific Permissions Goto
- -  `src/php/index.php`
+2. To Go Change Any Specific Permissions. 
+ - Goto -> `src/php/index.php`
 
- line No  ** 10 ** , Do Changes here
+ - line No  *** 10 *** , Do Changes here
 ```
 $config = array(
     "allow_file_create" => true,
@@ -50,10 +50,11 @@ $config = array(
 - [x] Read OnlyMode + Specific Rights
 - [ ] unzip files
 - [ ] mobile fileupload
-- [ ] Settings
+- [x] Settings (Some what 60%)
 - [ ] Auth
 
 ### Attribution
+<a href="https://www.iconarchive.com/" title="file icons">icons by icon archive</a><br>
 <a href="https://www.flaticon.com/free-icons/file" title="file icons">File icons created by Dimitry Miroliubov - Flaticon</a><br>
 <a href="https://www.flaticon.com/free-icons/folder" title="folder icons">Folder icons created by kumakamu - Flaticon</a><br>
 <a href="https://github.com/lovefc/fcup" title="File Upload">Large File Upload - fcup on by lovefc </a><br>
@@ -63,7 +64,7 @@ $config = array(
 
 
 
-## logs
+## logs -updates what ever 😃
 
 -- added Terminal (Feb 15 2023) <br>
 -- Added Reload Button - Fixed Bugs (Feb 20 2023) <br>
@@ -71,4 +72,5 @@ $config = array(
 -- Added Tabs Support & Created Manifest (March 29 2023) <br>
 -- Added Rename File & Folder Download (March 29 2023) <br>
 -- Added ReadOnlyMode Or Specify Specific rights (March 29 2023) <br>
+-- Added Setting , More Themes &  -Fixed Bugs (March 30 2023) <br>
 

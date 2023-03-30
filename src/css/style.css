@@ -4,6 +4,11 @@
 :root{
    --green : #04AA6D;
    --red : #f44336;
+   --xsmall : "10px",
+   --small : "12px",
+   --medium : "14px",
+   --large : "16px",
+   --xlarge : "18px",
 }
 .container{
     display: flex;
