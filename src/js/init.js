@@ -79,7 +79,7 @@ const codeEditor = {
         files.forEach(item => {
             document.getElementById("files")
                 .innerHTML +=
-                `<li onclick='codeEditor.ItemClicked(${JSON.stringify(item)})' data-long-press-delay="500" >
+                `<li  onclick='codeEditor.ItemClicked(${JSON.stringify(item)})' data-long-press-delay="500" >
                    <a  data="${item.name}">
                       <img src="${item.is_dir ? this.fileIcon("folder") : this.fileIcon(item.ext, this.currentDir + "/" + item.name)}">
                       ${item.name}</a>
@@ -352,13 +352,13 @@ const codeEditor = {
         // application setting save
         document.getElementById("SettingSave").onclick = () =>{
             const fontSize = document.getElementById("fontSize").value
+            const sfontSize = document.getElementById("sfontSize").value
             const themes = document.getElementById("Appthemes").value
+
+            document.querySelectorAll(".container .sidebar ul li a").forEach(item => item.style.fontSize = sfontSize )
             editor.setFontSize(fontSize)
         }
-
-        const dropArea = document.body;
-        // drag and drop
-        dropArea.addEventListener("dragover", (event) => {
+addEventListener("dragover", (event) => {
             event.preventDefault(); //preventing from default behaviour
             document.body.style.border = "4px dashed green"
         });
