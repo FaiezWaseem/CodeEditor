@@ -349,6 +349,7 @@ const codeEditor = {
                 })
             console.log("CLicked")
         }
+        // application setting save
         document.getElementById("SettingSave").onclick = () =>{
             const fontSize = document.getElementById("fontSize").value
             const themes = document.getElementById("Appthemes").value
