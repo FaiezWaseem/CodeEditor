@@ -1,11 +1,12 @@
 import db from "./tinylib.js"
 const codeEditor = {
-    
+
     // leave null to auto detect server root path
     currentDir: null, // To add a custom path edit currentDir key EX : "/var/user/home/"
-    rootPath: null,  
+    rootPath: null,
     selectedFile: null, // dont change
-    fileIcon(ext, name = null){
+    openedTab: [],
+    fileIcon(ext, name = null) {
         switch (ext) {
             case "gif":
                 return "./src/php/index.php?dw=" + name;
@@ -92,9 +93,11 @@ const codeEditor = {
             this.currentDir = path;
             db.getFolder(path).then(res => {
                 // directory files recieved  
+                this.loader(false)
                 if (res.status === 200) {
                     window.codeEditor.loadfiles(res.data)
-                    this.loader(false)
+                } else {
+                    this.alert(res.data + " Path : " + path, "red")
                 }
 
             }).catch(err => {
@@ -109,23 +112,28 @@ const codeEditor = {
                     mode: 'ace/mode/' + temp[temp.length - 1]
                 })
             }
-            db.getFile(path).then(res => {
-                if (res.status === 200) {
-                    editor.setValue(res.data, -1)
-                    editor.currentfile = path;
-                    this.loader(false)
-                    document.querySelector(".tabs").innerHTML += `
-                    <li id="${temp[0]}">
-                    <img src="${ this.fileIcon(temp[temp.length - 1], this.currentDir + "/" + e.name)}" width="25px" height="25px">
+            if (!this.openedTab.includes(path)) {
+                this.openedTab.push(path)
+                db.getFile(path).then(res => {
+                    if (res.status === 200) {
+                        editor.setValue(res.data, -1)
+                        editor.currentfile = path;
+                        this.loader(false)
+                        document.querySelector(".tabs").innerHTML += `
+                    <li id="${temp[0]}" isOpenedFile="yes" data-long-press-delay="500">
+                    <img src="${this.fileIcon(temp[temp.length - 1], this.currentDir + "/" + e.name)}" width="25px" height="25px">
                     <span onclick="codeEditor.tabClicked('${path}','${e.name}')">${e.name}</span>
-                    <span onclick="codeEditor.tabClose('${temp[0]}')">X</span>
+                    <span onclick="codeEditor.tabClose('${temp[0]}','${path}')">X</span>
                 </li>
                     `
-                }
-            }).catch(err => {
-                this.loader(false);
-                this.alert(err, "red")
-            })
+                    }
+                }).catch(err => {
+                    this.loader(false);
+                    this.alert(err, "red")
+                })
+            }else{
+                this.loader(false)
+            }
         }
     },
     init() {
@@ -258,18 +266,32 @@ const codeEditor = {
             });
         });
 
+        // On Long Press for Conext Menu
         document.addEventListener('long-press', (e) => {
-            console.log(e.target.getAttribute("data"))
-            this.selectedFile = e.target.getAttribute("data");
-            var menu = document.querySelector('.menu2');
-            console.log(e.detail.clientX, e.detail.clientY)
-            menu.style.left = e.detail.clientX + 'px';
-            menu.style.top = e.detail.clientY + 'px';
-            menu.classList.add('menu-show');
+            const showMenu = (id, e) => {
+                var menu = document.querySelector(id);
+                console.log(e.detail.clientX, e.detail.clientY)
+                menu.style.left = e.detail.clientX + 'px';
+                menu.style.top = e.detail.clientY + 'px';
+                menu.classList.add('menu-show');
+            }
+            if (e.target.getAttribute("data") === null) {
+                showMenu('.menu3', e);
+            } else {
+                this.selectedFile = e.target.getAttribute("data");
+                showMenu('.menu2', e)
+            }
         });
         document.addEventListener('click', function () {
-            document.querySelector('.menu2').classList.remove('menu-show');
+            try {
+                document.querySelector('.menu2').classList.remove('menu-show');
+                document.querySelector('.menu3').classList.remove('menu-show');
+            } catch (error) {
+
+            }
         })
+
+        // Share Folder Clicked
         document.getElementById("shareFolder").onclick = () => {
             const path = window.codeEditor.currentDir + "/" + window.codeEditor.selectedFile;
             const a = document.createElement("a")
@@ -277,6 +299,7 @@ const codeEditor = {
             document.body.appendChild(a)
             a.click();
         }
+        // Open File / Folder Clicked
         document.getElementById("openFolder").onclick = () => {
             db.getFolder(window.codeEditor.currentDir + "/" + window.codeEditor.selectedFile).then(res => {
                 // directory files recieved  
@@ -291,6 +314,7 @@ const codeEditor = {
                 this.alert(err, "red")
             })
         }
+        // file / folder  delete btn clicked 
         document.getElementById("folderDelete").onclick = () => {
             this.loader(true);
             db.deleteFile(this.currentDir + "/" + this.selectedFile)
@@ -307,13 +331,14 @@ const codeEditor = {
                     }
                 })
         }
+        // file Rename clicked
         document.getElementById("fRename").onclick = () => {
             const newName = document.getElementById("fileRename").value;
             const oldName = this.selectedFile
             const oldPath = this.currentDir + "/" + oldName
             const newPath = this.currentDir + "/" + newName
             this.loader(true);
-            db.fileRename(oldPath,newPath)
+            db.fileRename(oldPath, newPath)
                 .then(res => {
                     if (res.status === 200) {
                         this.reload()
@@ -323,6 +348,12 @@ const codeEditor = {
                     }
                 })
             console.log("CLicked")
+        }
+        // application setting save
+        document.getElementById("SettingSave").onclick = () =>{
+            const fontSize = document.getElementById("fontSize").value
+            const themes = document.getElementById("Appthemes").value
+            editor.setFontSize(fontSize)
         }
 
         const dropArea = document.body;
@@ -362,25 +393,28 @@ const codeEditor = {
 
     },
     previousDir() {
+        // Show a loader first 
         this.loader(true);
+        // saving current open dir
         var temp = window.codeEditor.currentDir;
-        let str = window.codeEditor.currentDir.split("/")
-        str.pop();
-        str = str.toString();
-        str = str.replaceAll(",", "/");
-        this.currentDir = str;
-        db.getFolder(str).then(res => {
+        let str = window.codeEditor.currentDir.split("/") // converting to array ex "/var/home" to ['var' ,'home'] 
+        str.pop(); // removing the last dir 
+        str = str.toString(); // converting back to string , we get ,var
+        str = str.replaceAll(",", "/"); // converting , to /
+        this.currentDir = str; // changing current dir
+        db.getFolder(str).then(res => { // loading current dir
             // directory files recieved  
             if (res.status === 200) {
                 window.codeEditor.loadfiles(res.data)
                 this.loader(false);
             } else {
                 this.loader(false);
-                this.currentDir = temp;
+                this.currentDir = temp; //failed to load , Soo changing back to current dir
                 this.alert(res.status_message, "red")
             }
 
         }).catch(err => {
+            this.currentDir = temp;
             this.loader(false);
             this.alert(err, "red")
         })
@@ -540,13 +574,14 @@ const codeEditor = {
                 return false;
         }
     },
-    tabClose(id){
+    tabClose(id , path) {
         document.getElementById(id).remove()
         editor.selectedFile = null
         this.selectedFile = null
         editor.setValue("")
+        this.openedTab = this.openedTab.filter( p => p !== path) // to remove the opened tab from list
     },
-    tabClicked(path , fName){
+    tabClicked(path, fName) {
         this.selectedFile = fName;
         let temp = fName.split(".");
         if (this.isValidFile(temp[temp.length - 1])) {

@@ -99,6 +99,41 @@
             <button class="btn" id="cfile">Save</button>
         </div>
     </div>
+
+    <!-- Setting Modal -->
+    <div class="modal" id="setting_modal">
+        <div class="header">
+            <div class="title">Setting</div>
+            <button class="btn close-modal">&times;</button>
+        </div>
+        <div class="body">
+            <div>
+                <label for="fontSize">Text Editor FontSize : </label>
+                <select  id="fontSize" value="12">
+                 <option value="10px">10px</option>
+                 <option value="12px">12px</option>
+                 <option value="14px">14px</option>
+                 <option value="16px">16px</option>
+                 <option value="18px">18px</option>
+                 <option value="20px">20px</option>
+                </select>
+            </div>
+            <br>
+            <hr>
+            <br>
+            <div>
+                <label for="Appthemes">App Theme : </label>
+                <select  id="Appthemes" value="dark">
+                 <option value="light">light</option>
+                 <option value="dark">dark</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="header">
+            <button class="btn" id="SettingSave">Save</button>
+        </div>
+    </div>
     <!-- Modal File Rename -->
     <div class="modal" id="modal3" >
         <div class="header">
@@ -113,8 +148,8 @@
         </div>
     </div>
 
-    <!-- Folder Context Menu -->
-    <ul class="menu2">
+    <!--SideBar Item Context Menu -->
+    <ul class="context-menu menu2">
         <li class="menu-item">
             <a href="#" class="menu-btn" id="openFolder">
                 <i class="fa fa-folder-open"></i>
@@ -141,6 +176,37 @@
             </button>
         </li>
     </ul>
+    <!-- Opened File Context Menu -->
+
+        <!-- Folder Context Menu -->
+        <ul class="context-menu menu3">
+            <li class="menu-item">
+                <a href="#" class="menu-btn" >
+                    <i class="fa fa-folder-open"></i>
+                    <span class="menu-text">Close</span>
+                </a>
+            </li>
+            <li class="menu-separator"></li>
+            <li class="menu-item" id="shareFolder">
+                <button type="button" class="menu-btn">
+                    <i class="fa fa-link"></i>
+                    <span class="menu-text" >Copy Path</span>
+                </button>
+            </li>
+            <li class="menu-item" >
+                <button type="button" class="menu-btn">
+                    <i class="fa fa-edit"></i>
+                    <span class="menu-text" >File Size</span>
+                </button>
+            </li>
+            <li class="menu-item">
+                <button type="button" class="menu-btn">
+                    <i class="fa fa-trash"></i>
+                    <span class="menu-text">Properties</span>
+                </button>
+            </li>
+        </ul>
+    <script src="./src/js/offline.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ext-language_tools.min.js"></script>
     <script src="./src/js/jquery.fcup.js"></script>
