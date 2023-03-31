@@ -85,6 +85,7 @@ const codeEditor = {
                       ${item.name}</a>
                 </li>`;
         });
+        this.Settingsinit().init()  
     },
     ItemClicked(e) {
         this.loader(true)
@@ -131,7 +132,7 @@ const codeEditor = {
                     this.loader(false);
                     this.alert(err, "red")
                 })
-            }else{
+            } else {
                 this.loader(false)
             }
         }
@@ -167,11 +168,12 @@ const codeEditor = {
             this.reload();
         }
 
+        
         document.addEventListener('keydown', e => {
             if (e.ctrlKey && e.key === 's') {
-                this.loader(true)
                 // Prevent the Save dialog to open
                 e.preventDefault();
+                this.loader(true)
                 if (editor.currentfile) {
 
                     db.putFile(editor.currentfile, editor.getValue()).then(res => {
@@ -349,14 +351,36 @@ const codeEditor = {
                 })
             console.log("CLicked")
         }
-        // application setting save
-        document.getElementById("SettingSave").onclick = () =>{
+        try {
+                 // application setting save
+        document.getElementById("SettingSave").onclick = () => {
             const fontSize = document.getElementById("fontSize").value
             const sfontSize = document.getElementById("sfontSize").value
-            const themes = document.getElementById("Appthemes").value
-
-            document.querySelectorAll(".container .sidebar ul li a").forEach(item => item.style.fontSize = sfontSize )
-            editor.setFontSize(fontSize)
+            const theme = document.getElementById("Appthemes").value
+            const IconSize = document.getElementById("sIconSize").value
+            this.Settingsinit().setConfig({
+                fontSize,
+                theme,
+                SystemfontSize: sfontSize,
+                SystemIconSize: IconSize,
+            })
+        }   
+        } catch (error) {
+            setTimeout(()=>{
+                       // application setting save
+        document.getElementById("SettingSave").onclick = () => {
+            const fontSize = document.getElementById("fontSize").value
+            const sfontSize = document.getElementById("sfontSize").value
+            const theme = document.getElementById("Appthemes").value
+            const IconSize = document.getElementById("sIconSize").value
+            this.Settingsinit().setConfig({
+                fontSize,
+                theme,
+                SystemfontSize: sfontSize,
+                SystemIconSize: IconSize,
+            })
+        }
+            },2000)   
         }
 
         const dropArea = document.body;
@@ -379,7 +403,7 @@ const codeEditor = {
         });
 
 
-        let isClosed = false;
+        let isClosed = true;
         document.getElementById("close-shell").onclick = () => {
             if (!isClosed) {
                 document.querySelector('#terminal').style.display = "none";
@@ -577,12 +601,12 @@ const codeEditor = {
                 return false;
         }
     },
-    tabClose(id , path) {
+    tabClose(id, path) {
         document.getElementById(id).remove()
         editor.selectedFile = null
         this.selectedFile = null
         editor.setValue("")
-        this.openedTab = this.openedTab.filter( p => p !== path) // to remove the opened tab from list
+        this.openedTab = this.openedTab.filter(p => p !== path) // to remove the opened tab from list
     },
     tabClicked(path, fName) {
         this.selectedFile = fName;
@@ -602,6 +626,59 @@ const codeEditor = {
             this.loader(false);
             this.alert(err, "red")
         })
+    },
+    Settingsinit() {
+        const KEY = "codeEditorSetting";
+        const settingsDefault = {
+            "theme": "dark",
+            "fontSize": "14px",
+            "SystemfontSize": "14px",
+            "SystemIconSize": "25px",
+        };
+        const updateTheme = (config)=>{
+            document.querySelectorAll(".container .sidebar ul li a").forEach(item => item.style.fontSize = config.SystemfontSize)
+            document.querySelectorAll(".container .sidebar ul li a img").forEach(item => item.style.width = config.SystemIconSize)
+            editor.setFontSize(config.fontSize)
+           if(document.querySelector("file-options a")){
+            document.querySelector("file-options a").style.fontSize = config.SystemfontSize
+           }
+           document.body.className = config.theme
+           if(config.theme === "dark"){
+            editor.setOptions({
+                theme: 'ace/theme/tomorrow_night'
+              })
+           }else{
+            editor.setOptions({
+                theme: 'ace/theme/xcode'
+              })
+           }
+           
+        }
+        return {
+            init() {
+                let settings = JSON.parse(localStorage.getItem(KEY))
+                if (settings) {
+                    updateTheme(settings)
+                    // ---------------------------------------------
+                    document.getElementById("fontSize").value = settings.fontSize
+                    document.getElementById("sfontSize").value = settings.SystemfontSize
+                    document.getElementById("Appthemes").value = settings.theme
+                    document.getElementById("sIconSize").value = settings.SystemIconSize
+                } else {
+                    localStorage.setItem(KEY, JSON.stringify(settingsDefault))
+                    updateTheme(settingsDefault)
+                //    --------------------------------------------------------------------
+                    document.getElementById("fontSize").value = settingsDefault.fontSize
+                    document.getElementById("sfontSize").value = settingsDefault.SystemfontSize
+                    document.getElementById("Appthemes").value = settingsDefault.theme
+                    document.getElementById("sIconSize").value = settingsDefault.SystemIconSize
+                }
+            },
+            setConfig(conf = settingsDefault) {
+                localStorage.setItem(KEY, JSON.stringify(conf))
+                updateTheme(conf)
+            }
+        }
     }
 }
 export default codeEditor;

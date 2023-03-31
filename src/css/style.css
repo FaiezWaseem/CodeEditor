@@ -4,12 +4,32 @@
 :root{
    --green : #04AA6D;
    --red : #f44336;
-   --xsmall : "10px",
-   --small : "12px",
-   --medium : "14px",
-   --large : "16px",
-   --xlarge : "18px",
+   --fontxsmall : "10px";
+   --fontsmall : "12px";
+   --fontmedium : "14px";
+   --fontlarge : "16px";
+   --fontxlarge : "18px";
+   --fonthuge : "20px";
+   --iconsmall : "20px";
+   --iconmedium:"25px";
+   --iconlarge : "30px";
+   --iconxlarge : "35px";
 }
+
+/* Light */
+.light .container .sidebar ,
+.light .tabs ,
+.light .tabs li ,
+.light .iframe{
+  background-color: #fff !important;
+}
+.light .container .sidebar ul li a,
+.light .container .sidebar a ,
+.light .tabs li ,
+.light .iframe div span{
+  color: #000 !important;
+}
+
 .container{
     display: flex;
 }

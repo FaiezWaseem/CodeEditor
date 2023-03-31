@@ -50,7 +50,7 @@ $config = array(
 - [x] Read OnlyMode + Specific Rights
 - [ ] unzip files
 - [ ] mobile fileupload
-- [x] Settings (Some what 60%)
+- [x] Settings
 - [ ] Auth
 
 ### Attribution
@@ -73,4 +73,5 @@ $config = array(
 -- Added Rename File & Folder Download (March 29 2023) <br>
 -- Added ReadOnlyMode Or Specify Specific rights (March 29 2023) <br>
 -- Added Setting , More Themes &  -Fixed Bugs (March 30 2023) <br>
+-- Settings Completed & Theme fixed -Fixed Bugs (March 31 2023) <br>
 
