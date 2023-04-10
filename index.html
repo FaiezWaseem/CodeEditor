@@ -42,6 +42,7 @@
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./src/css/style.css">
     <link rel="stylesheet" href="./src/css/contextmenu.css">
+    <!-- <link rel="stylesheet" href="./src/css/photon.min.css"> -->
 </head>
 
 <body oncontextmenu="return false;">
@@ -61,7 +62,9 @@
 
 
         <div class="sidebar" id="sidebar">
+            
         </div>
+
         <div>
             <div class="tabs">
         
@@ -119,8 +122,6 @@
                 </select>
             </div>
             <br>
-            <hr>
-            <br>
             <div>
                 <label for="sfontSize">System FontSize : </label>
                 <select  id="sfontSize" value="12">
@@ -133,8 +134,6 @@
                 </select>
             </div>
             <br>
-            <hr>
-            <br>
             <div>
                 <label for="sIconSize">System Icon Size : </label>
                 <select  id="sIconSize">
@@ -145,8 +144,6 @@
                 </select>
             </div>
             <br>
-            <hr>
-            <br>
             <div>
                 <label for="Appthemes">App Theme : </label>
                 <select  id="Appthemes" value="dark">
@@ -154,7 +151,14 @@
                  <option value="dark">dark</option>
                 </select>
             </div>
-
+            <br>
+            <hr>
+            <br>
+           <div>
+            <label for="cDir">Change Direcrtory Path</label>
+              <input type="text" id="cDir" width="70%">
+              <button class="btn" onclick="codeEditor.changeDirectory()">Change</button>
+           </div>
         </div>
         <div class="header">
             <button class="btn" id="SettingSave">Save</button>

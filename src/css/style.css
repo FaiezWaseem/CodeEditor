@@ -129,7 +129,7 @@
 }
 #editor { 
     position: absolute;
-    top: 5%;
+    top: 6%;
     right: 0;
     bottom: 30px;
     left: 20%;
@@ -140,7 +140,7 @@
   position: absolute;
   background-color:#1D1F21;
   width: 80%;
-  height: 5%;
+  height: 6%;
   top: 0;
   display: flex;
   overflow-x: scroll;
@@ -156,6 +156,8 @@
   border-right: 1px solid rgb(37, 37, 38);
   background-color: rgb(45, 45, 45);
   color: rgba(255, 255, 255, 0.5);
+  margin: 2px;
+  border-radius: 2px;
 }
 .tabs li span{
   margin-left: 4px;
@@ -187,7 +189,7 @@
 }
 
 .modal.active {
-  top: 25%;
+  top: 35%;
 }
 
 .modal .header {
@@ -203,10 +205,12 @@
   padding: 0.75rem;
 }
 .modal .body input{
-  width: 96%;
+  width: 60%;
   padding: 8px;
 }
-
+.btn{
+  padding: 6px 8px;
+}
 
 /* SCROLL BARS */
 

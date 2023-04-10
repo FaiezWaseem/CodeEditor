@@ -30,12 +30,12 @@ if(isset($_GET["vid"])){
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');
         header('Content-Disposition: attachment; filename=' . basename($file));
-        if(filesize($file) > 1220497){
+        if(@filesize($file) > 1220497){
             header('Content-Length: 1220497' );
             readfile($file);
             exit;
         }else{
-            header('Content-Length: '.filesize($file) );
+            header('Content-Length: '.@filesize($file) );
             readfile($file);
             exit;
         }
@@ -59,14 +59,14 @@ if (isset($_GET["dw"])) {
 
             ziptoFolder($file, $zipPath);
             header('Content-Disposition: attachment; filename=' . basename($file) . '.zip');
-            header('Content-Length: ' . filesize($zipPath));
+            header('Content-Length: ' . @filesize($zipPath));
             ob_clean();
             flush();
             readfile($zipPath);
             exit;
         } else {
             header('Content-Disposition: attachment; filename=' . basename($file));
-            header('Content-Length: ' . filesize($file));
+            header('Content-Length: ' . @filesize($file));
             ob_clean();
             flush();
             readfile($file);
@@ -106,9 +106,9 @@ if (isset($_POST["getFolder"]) && isset($_POST["path"])) {
                         "name" => $file,
                         "ext" => $ext,
                         "is_dir" => is_dir($current_path . "/" . $file),
-                        "size" => getHumanReadableSize(filesize($current_path . "/" . $file)),
-                        "modified_time" => date("F d Y H:i:s", filemtime($current_path . "/" . $file)),
-                        "perm" => substr(sprintf("%o", fileperms($current_path . "/" . $file)), -4),
+                        "size" => getHumanReadableSize(@filesize($current_path . "/" . $file)),
+                        "modified_time" => date("F d Y H:i:s", @filemtime($current_path . "/" . $file)),
+                        "perm" => substr(sprintf("%o", @fileperms($current_path . "/" . $file)), -4),
                         "download_url" => "./src/php/index.php?dw=" . $current_path . "/" . $file,
                         "dimension" => getImageDimensions($current_path . "/" . $file),
                         "path" => $current_path . "/" . $file,

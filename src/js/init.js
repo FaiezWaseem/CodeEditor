@@ -85,10 +85,11 @@ const codeEditor = {
                       ${item.name}</a>
                 </li>`;
         });
-        this.Settingsinit().init()  
+        this.Settingsinit().init()
     },
     ItemClicked(e) {
         this.loader(true)
+        const temp = this.currentDir;
         const path = this.currentDir + "/" + e.name;
         if (e.is_dir) {
             this.currentDir = path;
@@ -98,7 +99,8 @@ const codeEditor = {
                 if (res.status === 200) {
                     window.codeEditor.loadfiles(res.data)
                 } else {
-                    this.alert(res.data + " Path : " + path, "red")
+                    this.alert("Invalid Path : " + path, "red")
+                    this.currentDir = temp;
                 }
 
             }).catch(err => {
@@ -124,7 +126,7 @@ const codeEditor = {
                     <li id="${temp[0]}" isOpenedFile="yes" data-long-press-delay="500">
                     <img src="${this.fileIcon(temp[temp.length - 1], this.currentDir + "/" + e.name)}" width="25px" height="25px">
                     <span onclick="codeEditor.tabClicked('${path}','${e.name}')">${e.name}</span>
-                    <span onclick="codeEditor.tabClose('${temp[0]}','${path}')">X</span>
+                    <span class="btn close-modal" onclick="codeEditor.tabClose('${temp[0]}','${path}')" style="font-size : 25px;">&times;</span>
                 </li>
                     `
                     }
@@ -168,7 +170,7 @@ const codeEditor = {
             this.reload();
         }
 
-        
+
         document.addEventListener('keydown', e => {
             if (e.ctrlKey && e.key === 's') {
                 // Prevent the Save dialog to open
@@ -352,35 +354,35 @@ const codeEditor = {
             console.log("CLicked")
         }
         try {
-                 // application setting save
-        document.getElementById("SettingSave").onclick = () => {
-            const fontSize = document.getElementById("fontSize").value
-            const sfontSize = document.getElementById("sfontSize").value
-            const theme = document.getElementById("Appthemes").value
-            const IconSize = document.getElementById("sIconSize").value
-            this.Settingsinit().setConfig({
-                fontSize,
-                theme,
-                SystemfontSize: sfontSize,
-                SystemIconSize: IconSize,
-            })
-        }   
+            // application setting save
+            document.getElementById("SettingSave").onclick = () => {
+                const fontSize = document.getElementById("fontSize").value
+                const sfontSize = document.getElementById("sfontSize").value
+                const theme = document.getElementById("Appthemes").value
+                const IconSize = document.getElementById("sIconSize").value
+                this.Settingsinit().setConfig({
+                    fontSize,
+                    theme,
+                    SystemfontSize: sfontSize,
+                    SystemIconSize: IconSize,
+                })
+            }
         } catch (error) {
-            setTimeout(()=>{
-                       // application setting save
-        document.getElementById("SettingSave").onclick = () => {
-            const fontSize = document.getElementById("fontSize").value
-            const sfontSize = document.getElementById("sfontSize").value
-            const theme = document.getElementById("Appthemes").value
-            const IconSize = document.getElementById("sIconSize").value
-            this.Settingsinit().setConfig({
-                fontSize,
-                theme,
-                SystemfontSize: sfontSize,
-                SystemIconSize: IconSize,
-            })
-        }
-            },2000)   
+            setTimeout(() => {
+                // application setting save
+                document.getElementById("SettingSave").onclick = () => {
+                    const fontSize = document.getElementById("fontSize").value
+                    const sfontSize = document.getElementById("sfontSize").value
+                    const theme = document.getElementById("Appthemes").value
+                    const IconSize = document.getElementById("sIconSize").value
+                    this.Settingsinit().setConfig({
+                        fontSize,
+                        theme,
+                        SystemfontSize: sfontSize,
+                        SystemIconSize: IconSize,
+                    })
+                }
+            }, 2000)
         }
 
         const dropArea = document.body;
@@ -635,24 +637,26 @@ const codeEditor = {
             "SystemfontSize": "14px",
             "SystemIconSize": "25px",
         };
-        const updateTheme = (config)=>{
+        const updateTheme = (config) => {
             document.querySelectorAll(".container .sidebar ul li a").forEach(item => item.style.fontSize = config.SystemfontSize)
             document.querySelectorAll(".container .sidebar ul li a img").forEach(item => item.style.width = config.SystemIconSize)
             editor.setFontSize(config.fontSize)
-           if(document.querySelector("file-options a")){
-            document.querySelector("file-options a").style.fontSize = config.SystemfontSize
-           }
-           document.body.className = config.theme
-           if(config.theme === "dark"){
-            editor.setOptions({
-                theme: 'ace/theme/tomorrow_night'
-              })
-           }else{
-            editor.setOptions({
-                theme: 'ace/theme/xcode'
-              })
-           }
-           
+            if (document.querySelector("file-options a")) {
+                document.querySelector("file-options a").style.fontSize = config.SystemfontSize
+            }
+            document.body.className = config.theme
+            if (config.theme === "dark") {
+                editor.setOptions({
+                    theme: 'ace/theme/tomorrow_night'
+                })
+            } else {
+                editor.setOptions({
+                    theme: 'ace/theme/xcode'
+                })
+            }
+          
+
+            document.getElementById("cDir").value = this.currentDir
         }
         return {
             init() {
@@ -667,7 +671,7 @@ const codeEditor = {
                 } else {
                     localStorage.setItem(KEY, JSON.stringify(settingsDefault))
                     updateTheme(settingsDefault)
-                //    --------------------------------------------------------------------
+                    //    --------------------------------------------------------------------
                     document.getElementById("fontSize").value = settingsDefault.fontSize
                     document.getElementById("sfontSize").value = settingsDefault.SystemfontSize
                     document.getElementById("Appthemes").value = settingsDefault.theme
@@ -679,6 +683,11 @@ const codeEditor = {
                 updateTheme(conf)
             }
         }
+    },
+    changeDirectory(){
+        this.currentDir = document.getElementById("cDir").value;
+        this.init();
     }
+
 }
 export default codeEditor;
